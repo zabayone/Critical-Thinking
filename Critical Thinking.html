@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="slides-format" content="viewport" />
+  <title>AI Music Ethics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300..700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080d1a;
+      --bg-deep: #04060f;
+      --border: rgba(255, 255, 255, .09);
+      --text: #eef3ff;
+      --text-2: #c9d5ec;
+      --text-3: #7f94b5;
+      --a1: #63d3ff;
+      --a2: #8a96ff;
+      --a3: #b07eff;
+      --warm: #f3b562;
+      --shadow: 0 20px 60px rgba(0, 0, 0, .32);
+      --r-lg: 24px;
+      --r-md: 18px;
+      --font-d: 'Instrument Serif', Georgia, serif;
+      --font-b: 'Inter', system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: radial-gradient(circle at 82% 8%, rgba(99, 211, 255, .11) 0%, transparent 28%), radial-gradient(circle at 12% 88%, rgba(138, 150, 255, .13) 0%, transparent 26%), linear-gradient(148deg, #0e1528 0%, var(--bg) 45%, var(--bg-deep) 100%);
+    }
+
+    .deck {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.6rem, 3.5vw, 3.5rem) clamp(2rem, 4.5vw, 5rem) clamp(3.5rem, 6vh, 5.5rem);
+      opacity: 0;
+      transform: scale(.975);
+      pointer-events: none;
+      transition: opacity .55s ease, transform .55s ease;
+      overflow: hidden;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+      opacity: .1;
+      mix-blend-mode: overlay;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, .28) 100%);
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: min(1260px, 100%);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(.9rem, 2vh, 2rem);
+    }
+
+    .gm {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: drift 14s ease-in-out infinite;
+    }
+
+    .blob:nth-child(2) {
+      animation-duration: 19s;
+      animation-direction: reverse;
+    }
+
+    .blob:nth-child(3) {
+      animation-duration: 23s;
+    }
+
+    @keyframes drift {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(22px, -32px) scale(1.09);
+      }
+
+      66% {
+        transform: translate(-26px, 18px) scale(.91);
+      }
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: clamp(.68rem, .8vw, .82rem);
+      font-weight: 700;
+      color: var(--a1);
+      line-height: 1;
+    }
+
+    h1 {
+      font-family: var(--font-d);
+      letter-spacing: -.03em;
+      line-height: .97;
+      font-size: clamp(2.6rem, 5.2vw, 5rem);
+      text-wrap: balance;
+    }
+
+    h2 {
+      font-family: var(--font-d);
+      letter-spacing: -.025em;
+      line-height: 1;
+      font-size: clamp(2rem, 3.6vw, 3.3rem);
+      text-wrap: balance;
+    }
+
+    h3 {
+      font-size: clamp(.95rem, 1.1vw, 1.1rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: .5em;
+    }
+
+    p,
+    li {
+      color: var(--text-2);
+      font-size: clamp(.9rem, 1.1vw, 1.12rem);
+      line-height: 1.5;
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 1.3vw, 1.28rem);
+      color: var(--text-2);
+      line-height: 1.4;
+      max-width: 58ch;
+    }
+
+    .big {
+      font-size: clamp(1.05rem, 1.35vw, 1.36rem);
+      line-height: 1.45;
+      color: var(--text);
+      max-width: 58ch;
+    }
+
+    .big-quote {
+      font-family: var(--font-d);
+      font-size: clamp(1.7rem, 2.6vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--text);
+    }
+
+    .aline {
+      height: 4px;
+      width: 88px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--a1), var(--a2), var(--warm));
+      flex-shrink: 0;
+    }
+
+    .glass {
+      background: linear-gradient(175deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .045));
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: clamp(1.1rem, 1.8vw, 1.7rem) clamp(1.2rem, 2vw, 1.9rem);
+    }
+
+    .g2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(.9rem, 1.5vw, 1.4rem);
+      align-items: stretch;
+    }
+
+    .g3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(.9rem, 1.5vw, 1.4rem);
+      align-items: stretch;
+    }
+
+    .g4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(.7rem, 1.2vw, 1.2rem);
+      align-items: stretch;
+    }
+
+    .pills {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: .55rem .9rem;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .08);
+      color: #e0eaff;
+      font-size: .85rem;
+      line-height: 1;
+    }
+
+    .stat {
+      font-size: clamp(2rem, 3.8vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -.04em;
+      line-height: 1;
+      color: linear-gradient(90deg, var(--a1), var(--a2));
+    }
+
+    .statlabel {
+      margin-top: .4rem;
+      font-size: .9rem;
+      color: var(--text-3);
+    }
+
+    .bars {
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 54px;
+      gap: .8rem;
+      align-items: center;
+      font-size: .95rem;
+    }
+
+    .track {
+      height: 12px;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--a1), var(--a2));
+      box-shadow: 0 0 18px rgba(99, 211, 255, .25);
+    }
+
+    ul.cl {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+
+    ul.cl li {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      padding: .7rem .85rem;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .055);
+    }
+
+    ul.cl li span {
+      color: var(--a1);
+      font-weight: 800;
+      min-width: 22px;
+      font-size: .95rem;
+    }
+
+    .hero-e {
+      font-size: clamp(4rem, 7vw, 6.5rem);
+      line-height: 1;
+      filter: drop-shadow(0 14px 26px rgba(99, 211, 255, .2));
+      display: inline-block;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-10px)
+      }
+    }
+
+    .rv {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    .sc {
+      position: absolute;
+      right: clamp(1.2rem, 2vw, 2rem);
+      bottom: clamp(1rem, 1.8vw, 1.6rem);
+      font-size: .82rem;
+      color: var(--text-3);
+      z-index: 10;
+    }
+
+    .nav {
+      position: fixed;
+      bottom: clamp(.9rem, 1.8vh, 1.6rem);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      padding: .6rem 1.1rem;
+      border-radius: 99px;
+      background: rgba(8, 13, 26, .6);
+      border: 1px solid rgba(255, 255, 255, .11);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .2);
+    }
+
+    .nb {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .08);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, transform .2s;
+    }
+
+    .nb:hover {
+      background: rgba(255, 255, 255, .14);
+      transform: translateY(-1px);
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .2);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .dot.active {
+      background: var(--a1);
+      transform: scale(1.25);
+    }
+
+    .nc {
+      font-size: .82rem;
+      color: var(--text-3);
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .tc {
+      text-align: center;
+    }
+
+    .mx-auto {
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1100px) {
+
+      .g2,
+      .g3,
+      .g4 {
+        grid-template-columns: 1fr;
+      }
+
+      .content {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="deck">
+    <section class="slide active" data-slide="1">
+      <div class="gm">
+        <div class="blob" style="width:460px;height:460px;top:-100px;right:-90px;background:#63d3ff;opacity:.13"></div>
+        <div class="blob" style="width:340px;height:340px;bottom:-100px;left:-70px;background:#8a96ff;opacity:.12">
+        </div>
+        <div class="blob" style="width:220px;height:220px;top:42%;left:13%;background:#b07eff;opacity:.10"></div>
+      </div>
+      <div class="content tc">
+        <div>
+          <div class="hero-e rv">♫</div>
+          <div class="eyebrow rv" style="margin-top:.9rem">AI-Generated Music &amp; Ethics</div>
+          <h1 class="rv"
+            style="margin:.75rem auto .6rem;background:linear-gradient(135deg,#63d3ff,#b07eff);-webkit-background-clip:text;background-clip:text;color:transparent;max-width:16ch">
+            AI-Generated Music and the Ethics of Algorithmic Composition</h1>
+          <p class="subtitle rv mx-auto">Technology, moral reasoning, authorship, labor, deception, and trust in
+            contemporary music production.</p>
+        </div>
+        <div class="glass rv mx-auto" style="max-width:860px;text-align:left">
+          <div class="aline" style="margin-bottom:.9rem"></div>
+          <ul class="cl">
+            <li>
+              <span>01</span>
+              <div>The central question: does AI use respect rights, labor, and artistic identity?</div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>We examine technical capabilities, ethical harms, and disclosure practices.</div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>Slides present evidence, case studies, and open policy questions.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sc">1 / 18</div>
+    </section>
+    <section class="slide" data-slide="2">
+      <div class="gm">
+        <div class="blob" style="width:360px;height:360px;top:-70px;right:-60px;background:#63d3ff;opacity:.09"></div>
+        <div class="blob" style="width:260px;height:260px;bottom:-80px;left:-50px;background:#8a96ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Overview</div>
+        <h2 class="rv">Research question and roadmap</h2>
+        <div class="glass rv">
+          <p class="big">The central question is not only whether AI <em>can</em> produce music, but whether its
+            deployment respects the rights, labor, and identity of human musicians.</p>
+          <div class="pills" style="margin-top:1rem">
+            <div class="pill">Technology</div>
+            <div class="pill">Moral reasoning</div>
+            <div class="pill">Perception</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">2 / 18</div>
+    </section>
+    <section class="slide" data-slide="3">
+      <div class="gm">
+        <div class="blob" style="width:320px;height:320px;top:-60px;right:-70px;background:#b07eff;opacity:.09"></div>
+        <div class="blob" style="width:250px;height:250px;bottom:-60px;left:-50px;background:#63d3ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Technology</div>
+        <h2 class="rv">What AI music systems are</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>Generative models</h3>
+            <p>Models learn statistical relationships across audio, symbolic structure, captions, and style labels from
+              very large datasets.</p>
+          </div>
+          <div class="glass">
+            <h3>Prompt-based systems</h3>
+            <p>Users describe genre, instrumentation, mood, tempo, or lyrics; models translate prompts directly into
+              audio.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">3 / 18</div>
+    </section>
+    <section class="slide" data-slide="4">
+      <div class="gm">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-80px;background:#63d3ff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-50px;background:#b07eff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Technology</div>
+        <h2 class="rv">Technologies and timeline</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>Research systems</h3>
+            <p>MusicLM and similar models demonstrated high-fidelity text-to-music generation, establishing proof of
+              concept.</p>
+          </div>
+          <div class="glass">
+            <h3>Commercial tools</h3>
+            <p>Suno, Udio, and others made generation accessible to everyone, shifting debate from theory to urgent
+              practice.</p>
+          </div>
+        </div>
+        <div class="glass rv" style="padding:.85rem 1.1rem">
+          <p>After 2023 AI music moved from research demos to consumer products, raising ethical questions that could
+            no longer be deferred.</p>
+        </div>
+      </div>
+      <div class="sc">4 / 18</div>
+    </section>
+    <section class="slide" data-slide="5">
+      <div class="gm">
+        <div class="blob" style="width:320px;height:320px;top:-50px;right:-70px;background:#b07eff;opacity:.09"></div>
+        <div class="blob" style="width:250px;height:250px;bottom:-60px;left:-60px;background:#63d3ff;opacity:.07"></div>
+        <div class="blob" style="width:200px;height:200px;top:44%;left:13%;background:#8a96ff;opacity:.08"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Capabilities</div>
+        <h2 class="rv">What these systems can generate</h2>
+        <div class="g4 rv">
+          <div class="glass">
+            <div class="stat">Text</div>
+            <div class="statlabel">Prompt-to-music</div>
+          </div>
+          <div class="glass">
+            <div class="stat">Style</div>
+            <div class="statlabel">Genre &amp; vibe control</div>
+          </div>
+          <div class="glass">
+            <div class="stat">Voice</div>
+            <div class="statlabel">Synthetic vocals</div>
+          </div>
+          <div class="glass">
+            <div class="stat">Melody</div>
+            <div class="statlabel">Conditioned continuation</div>
+          </div>
+        </div>
+        <div class="glass rv" style="padding:.85rem 1.1rem">
+          <p>Outputs range from ambient textures to polished pop sketches used in demos, stock libraries, and low-budget
+            media.</p>
+        </div>
+      </div>
+      <div class="sc">5 / 18</div>
+    </section>
+    <section class="slide" data-slide="6">
+      <div class="gm">
+        <div class="blob" style="width:360px;height:360px;top:-60px;right:-50px;background:#63d3ff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-70px;left:-40px;background:#8a96ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Technical distinction</div>
+        <h2 class="rv">Learning from music vs reproducing it</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>Learning</h3>
+            <p>Models may abstract broad musical regularities comparable to how a human absorbs stylistic conventions
+              through listening.</p>
+          </div>
+          <div class="glass">
+            <h3>Reproduction</h3>
+            <p>Alternatively, models may recombine distinctive stylistic fingerprints closely enough to produce
+              derivative outputs.</p>
+          </div>
+        </div>
+        <div class="glass rv" style="padding:.85rem 1.1rem">
+          <p>This distinction matters ethically and legally because it marks the boundary between innovation and infringement.
+          </p>
+        </div>
+      </div>
+      <div class="sc">6 / 18</div>
+    </section>
+    <section class="slide" data-slide="7">
+      <div class="gm">
+        <div class="blob" style="width:320px;height:320px;top:-50px;right:-70px;background:#b07eff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-50px;background:#63d3ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Why it matters</div>
+        <h2 class="rv">Why technical understanding informs ethics</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>Without the technical picture</h3>
+            <ul class="cl" style="margin-top:.4rem">
+              <li>
+                <span>✗</span>
+                <div>We cannot judge responsibility</div>
+              </li>
+              <li>
+                <span>✗</span>
+                <div>We cannot locate harms</div>
+              </li>
+              <li>
+                <span>✗</span>
+                <div>We cannot separate hype from real risk</div>
+              </li>
+            </ul>
+          </div>
+          <div class="glass">
+            <h3>Transition</h3>
+            <p>With the technical foundation established, we can ask: who is used, displaced, or misrepresented by these
+              systems, and how?</p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">7 / 18</div>
+    </section>
+    <section class="slide" data-slide="8">
+      <div class="gm">
+        <div class="blob" style="width:360px;height:360px;top:-60px;right:-50px;background:#63d3ff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-70px;left:-40px;background:#8a96ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Ethical issue</div>
+        <h2 class="rv">Consent and training data</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>Artist concerns</h3>
+            <p>Artists have publicly objected to systems trained on their work without permission, calling for rights,
+              opt-out mechanisms, and redress.</p>
+          </div>
+          <div class="glass">
+            <h3>Moral problem</h3>
+            <p>Training without consent transfers value from creators to platforms without compensation,
+              acknowledgment, or choice.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">8 / 18</div>
+    </section>
+    <section class="slide" data-slide="9">
+      <div class="gm">
+        <div class="blob" style="width:320px;height:320px;top:-50px;right:-70px;background:#b07eff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-60px;background:#63d3ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Ethical issue</div>
+        <h2 class="rv">Labor displacement and creative value</h2>
+        <div class="g3 rv">
+          <div class="glass">
+            <h3>Who is affected?</h3>
+            <p>Composers, producers, session musicians, sound designers, and vocalists all face substitution pressure.
+            </p>
+          </div>
+          <div class="glass">
+            <h3>Where first?</h3>
+            <p>Budget-sensitive sectors: advertising, stock libraries, podcasts, social media, and game audio.</p>
+          </div>
+          <div class="glass">
+            <h3>Why it matters</h3>
+            <p>The cultural labor that trained these models can be undercut economically by those very same models.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">9 / 18</div>
+    </section>
+    <section class="slide" data-slide="10">
+      <div class="gm">
+        <div class="blob" style="width:360px;height:360px;top:-60px;right:-50px;background:#63d3ff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-70px;left:-40px;background:#8a96ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Authorship</div>
+        <h2 class="rv">The authorship problem</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>Who wrote the song?</h3>
+            <ul class="cl" style="margin-top:.4rem">
+              <li>
+                <span>?</span>
+                <div>The prompt user?</div>
+              </li>
+              <li>
+                <span>?</span>
+                <div>The engineers who trained the model?</div>
+              </li>
+              <li>
+                <span>?</span>
+                <div>The artists in the training set?</div>
+              </li>
+              <li>
+                <span>?</span>
+                <div>Or no human author at all?</div>
+              </li>
+            </ul>
+          </div>
+          <div class="glass">
+            <h3>Legal context</h3>
+            <p>Recent guidance treats AI output as protected only when sufficient human expressive control is present —
+              an evolving and contested standard.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">10 / 18</div>
+    </section>
+    <section class="slide" data-slide="11">
+      <div class="gm">
+        <div class="blob" style="width:320px;height:320px;top:-50px;right:-70px;background:#b07eff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-50px;background:#63d3ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Moral frameworks</div>
+        <h2 class="rv">Applying moral reasoning</h2>
+        <div class="g3 rv">
+          <div class="glass">
+            <h3>Consequentialism</h3>
+            <p>Weigh outcomes: democratized access and efficiency gains vs. weakened creative ecosystems and
+              livelihoods.</p>
+          </div>
+          <div class="glass">
+            <h3>Deontology</h3>
+            <p>Ask whether using human work without consent violates duties to respect and acknowledge creators.</p>
+          </div>
+          <div class="glass">
+            <h3>Virtue ethics</h3>
+            <p>Consider what character traits and cultural habits we reward, or undermine, in music production.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">11 / 18</div>
+    </section>
+    <section class="slide" data-slide="12">
+      <div class="gm">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-80px;background:#63d3ff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-50px;background:#b07eff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Case</div>
+        <h2 class="rv">Real-world conflicts: lawsuits and industry response</h2>
+        <div class="glass rv">
+          <p>Major record companies initiated lawsuits alleging large-scale infringement in 2024. These disputes show
+            the issue is institutiona, not merely theoretical or philosophical.</p>
+        </div>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>Why it matters</h3>
+            <p>Legal disputes force platforms and labels to confront claims of unauthorized use with concrete
+              accountability.</p>
+          </div>
+          <div class="glass">
+            <h3>Next question</h3>
+            <p>If listeners cannot tell AI from human, does that create an independent ethical problem beyond copyright?
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">12 / 18</div>
+    </section>
+    <section class="slide" data-slide="13">
+      <div class="gm">
+        <div class="blob" style="width:320px;height:320px;top:-50px;right:-70px;background:#b07eff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-60px;background:#63d3ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Audience reaction</div>
+        <h2 class="rv">Blind test: recognition is low, transparency matters</h2>
+        <p class="sub rv">
+          People often cannot tell AI music apart, but many still want to know when they are listening to it.
+        </p>
+        <div class="g3 rv">
+          <div class="glass">
+            <div class="stat">97%</div>
+            <h3>Did not pass the test</h3>
+            <p>Most participants failed to identify all tracks correctly in the blind listening test.</p>
+          </div>
+          <div class="glass">
+            <div class="stat">43%</div>
+            <h3>Per-track accuracy</h3>
+            <p>When judged track by track, performance was closer to weak guessing than clear recognition.</p>
+          </div>
+          <div class="glass">
+            <div class="stat">80%</div>
+            <h3>Want labeling</h3>
+            <p>Even if AI can sound convincing, listeners still ask for disclosure and transparency.</p>
+          </div>
+        </div>
+        <div class="bars rv" style="margin-top:1.1rem">
+          <div class="bar-row">
+            <span>Want AI label</span>
+            <div class="track">
+              <div class="fill" style="width:80%"></div>
+            </div>
+            <strong>80%</strong>
+          </div>
+          <div class="bar-row">
+            <span>Would avoid</span>
+            <div class="track">
+              <div class="fill" style="width:45%"></div>
+            </div>
+            <strong>45%</strong>
+          </div>
+          <div class="bar-row">
+            <span>Would skip</span>
+            <div class="track">
+              <div class="fill" style="width:40%"></div>
+            </div>
+            <strong>40%</strong>
+          </div>
+        </div>
+        <div class="glass rv" style="margin-top:1rem;padding:.8rem 1rem">
+          <p style="margin:0;font-size:.9rem;color:var(--muted)">
+            Source: Deezer-Ipsos survey of 9,000 participants in 8 countries, reported by Reuters (2025)
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="slide" data-slide="14">
+      <div class="gm">
+        <div class="blob" style="width:360px;height:360px;top:-60px;right:-50px;background:#63d3ff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-70px;left:-40px;background:#8a96ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Concept</div>
+        <h2 class="rv">The imitation game for music</h2>
+        <div class="glass rv" style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap">
+          <p class="big-quote">Analogous to the Turing test: if machines imitate musical
+            expression convincingly, listener trust and authenticity become the central
+            ethical concerns, not just technical novelty.
+          </p>
+        </div>
+        <div class="glass rv" style="padding:.75rem 1.1rem; margin-top:.3rem">
+          <p>Turing (1950): a machine "passes" if an evaluator cannot tell it apart from
+            a human. In music, this threshold is crossed daily, but does passing the test
+            make the deception ethically acceptable?
+          </p>
+        </div>
+        <div class="sc">14 / 18</div>
+    </section>
+    <section class="slide" data-slide="15">
+      <div class="gm">
+        <div class="blob" style="width:320px;height:320px;top:-50px;right:-70px;background:#b07eff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-60px;background:#63d3ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Case study</div>
+        <h2 class="rv">Deepfake voices and identity harm</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>Heart on My Sleeve (2023)</h3>
+            <p>The viral track showed how quickly a cloned vocal identity can spread before takedown with minimal
+              friction in the process.</p>
+          </div>
+          <div class="glass">
+            <h3>Why it differs from style imitation</h3>
+            <p>Voice is part of artistic identity; cloning can feel like appropriation even when no original recording
+              is directly reused.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">15 / 18</div>
+    </section>
+    <section class="slide" data-slide="16">
+      <div class="gm">
+        <div class="blob" style="width:340px;height:340px;top:-70px;right:-80px;background:#63d3ff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-50px;background:#b07eff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Technical response</div>
+        <h2 class="rv">Watermarking as a detection strategy</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <h3>SynthID</h3>
+            <p>Google DeepMind's SynthID embeds inaudible, robust watermarks in AI-generated audio to support provenance
+              tracking.</p>
+          </div>
+          <div class="glass">
+            <h3>Strengths &amp; limits</h3>
+            <ul class="cl" style="margin-top:.4rem">
+              <li><span>✓</span>
+                <div>Useful for provenance and platform enforcement</div>
+              </li>
+              <li><span>✓</span>
+                <div>Supports disclosure policies and trust</div>
+              </li>
+              <li><span>✗</span>
+                <div>Does not address consent or labor fairness</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sc">16 / 18</div>
+    </section>
+    <section class="slide" data-slide="17">
+      <div class="gm">
+        <div class="blob" style="width:320px;height:320px;top:-50px;right:-70px;background:#b07eff;opacity:.09"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-60px;background:#63d3ff;opacity:.07"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Discussion</div>
+        <h2 class="rv">Final discussion question</h2>
+        <div class="glass rv">
+          <p class="big-quote">Should AI-generated music be legally required to disclose its origin, analogous to
+            ingredient labeling on food?</p>
+        </div>
+        <div class="g3 rv">
+          <div class="glass">
+            <h3>Yes</h3>
+            <p>Disclosure protects listener trust and enables informed consumption.</p>
+          </div>
+          <div class="glass">
+            <h3>No</h3>
+            <p>Some argue outcomes matter more than process in purely functional audio contexts.</p>
+          </div>
+          <div class="glass">
+            <h3>Middle ground</h3>
+            <p>Require disclosure for commercial use, voice cloning, or close artist-style imitation.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sc">17 / 18</div>
+    </section>
+    <section class="slide" data-slide="18">
+      <div class="gm">
+        <div class="blob" style="width:440px;height:440px;top:-100px;right:-90px;background:#63d3ff;opacity:.13"></div>
+        <div class="blob" style="width:300px;height:300px;bottom:-80px;left:-60px;background:#8a96ff;opacity:.11"></div>
+        <div class="blob" style="width:200px;height:200px;top:42%;left:14%;background:#b07eff;opacity:.09"></div>
+      </div>
+      <div class="content">
+        <div class="eyebrow rv">Credits &amp; sources</div>
+        <h2 class="rv">References and acknowledgements</h2>
+        <div class="g2 rv">
+          <div class="glass">
+            <ul class="cl">
+              <li><span>—</span>
+                <div>Artist Rights Alliance open letter, April 2024</div>
+              </li>
+              <li><span>—</span>
+                <div>RIAA / major-label lawsuits vs Suno &amp; Udio, June 2024</div>
+              </li>
+              <li><span>—</span>
+                <div>U.S. Copyright Office AI &amp; Copyright Report, 2025</div>
+              </li>
+              <li><span>—</span>
+                <div>Google Research: MusicLM</div>
+              </li>
+              <li><span>—</span>
+                <div>Google DeepMind: SynthID audio watermarking</div>
+              </li>
+              <li><span>—</span>
+                <div>"Heart on My Sleeve" — press coverage, April 2023</div>
+              </li>
+              <li><span>—</span>
+                <div>Deezer-Ipsos survey on AI music perception, November 2025</div>
+              </li>
+            </ul>
+          </div>
+          <div class="glass" style="display:flex;align-items:center;justify-content:center;text-align:center">
+            <div>
+              <div
+                style="font-family:var(--font-d);font-size:clamp(2.2rem,4vw,4rem);line-height:1;letter-spacing:-.03em"
+                class="rv">Thank you</div>
+              <p class="subtitle rv" style="margin-top:.8rem">Questions, objections, or counterarguments are welcome.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">18 / 18</div>
+    </section>
+  </div>
+  <div class="nav">
+    <button class="nb" onclick="changeSlide(-1)" aria-label="Previous">&#8249;</button>
+    <div class="dots" id="dots"></div>
+    <button class="nb" onclick="changeSlide(1)" aria-label="Next">&#8250;</button><span class="nc" id="counter">1 /
+      18</span>
+  </div>
+  <script>
+    let current = 1; const total = document.querySelectorAll('.slide').length; const dotsEl = document.getElementById('dots'); const counterEl = document.getElementById('counter'); for (let i = 1; i <= total; i++) { const d = document.createElement('div'); d.className = 'dot' + (i === 1 ? ' active' : ''); d.onclick = () => goToSlide(i); dotsEl.appendChild(d); } function goToSlide(n) { const p = document.querySelector('.slide.active'), nx = document.querySelector(`.slide[data-slide="${n}"]`); if (p) p.classList.remove('active'); if (nx) { nx.classList.add('active'); animateSlide(nx); } current = n; updateNav(); } function changeSlide(d) { let n = current + d; if (n < 1) n = total; if (n > total) n = 1; goToSlide(n); } function updateNav() { document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === current)); counterEl.textContent = `${current} / ${total}`; } document.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); } }); let tx = 0; document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }); document.addEventListener('touchend', e => { const diff = tx - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); }); function animateSlide(slide) { slide.querySelectorAll('.rv').forEach((el, i) => { el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(14px)'; el.offsetHeight; const delay = i * 0.08; el.style.transition = `opacity .36s ease ${delay}s,transform .36s ease ${delay}s`; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }); } animateSlide(document.querySelector('.slide.active'));
+  </script>
+</body>
+
+</html>

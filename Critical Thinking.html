@@ -451,6 +451,125 @@
         justify-content: center;
       }
     }
+
+    /* === Speaker notes (press 'N' to toggle) === */
+    .notes {
+      position: fixed;
+      left: 50%;
+      bottom: 4.5rem;
+      transform: translateX(-50%);
+      width: min(900px, 92vw);
+      max-height: 38vh;
+      overflow-y: auto;
+      background: rgba(8, 13, 26, .96);
+      border: 1px solid rgba(99, 211, 255, .35);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, .55);
+      z-index: 100;
+      display: none;
+      font-family: var(--font-b);
+      font-size: .92rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .notes.show { display: block; }
+
+    .notes h4 {
+      color: var(--a1);
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: .55rem;
+      font-weight: 700;
+    }
+
+    .notes p { margin-bottom: .55rem; color: var(--text-2); font-size: .92rem; }
+    .notes p:last-child { margin-bottom: 0; }
+    .notes em { color: var(--a1); font-style: normal; font-weight: 600; }
+    .notes strong { color: var(--warm); }
+
+    .notes-hint {
+      position: fixed;
+      top: .8rem;
+      right: 1rem;
+      font-size: .68rem;
+      color: var(--text-3);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      z-index: 99;
+      opacity: .65;
+    }
+
+    /* === Timeline component for slide 4 === */
+    .timeline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .6rem;
+      margin-top: .8rem;
+      padding: .9rem 1rem;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 1.5rem;
+      right: 1.5rem;
+      height: 2px;
+      background: linear-gradient(90deg, var(--a1), var(--a3));
+      opacity: .35;
+      z-index: 0;
+    }
+    .tl-step {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      text-align: center;
+      font-size: .78rem;
+    }
+    .tl-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--a1);
+      border-radius: 50%;
+      margin: 0 auto .35rem;
+      box-shadow: 0 0 0 4px rgba(99, 211, 255, .15);
+    }
+    .tl-step strong {
+      display: block;
+      color: var(--text);
+      font-size: .82rem;
+      margin-bottom: .15rem;
+    }
+    .tl-step span { color: var(--text-3); font-size: .72rem; }
+
+    /* === Framework icons for slide 11 === */
+    .fw-icon {
+      font-size: 1.6rem;
+      display: inline-block;
+      margin-right: .4rem;
+      vertical-align: middle;
+    }
+
+    /* === Citation badge === */
+    .badge {
+      display: inline-block;
+      padding: .15rem .55rem;
+      background: rgba(243, 181, 98, .15);
+      color: var(--warm);
+      border: 1px solid rgba(243, 181, 98, .35);
+      border-radius: 99px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      margin-top: .35rem;
+    }
   </style>
 </head>
 
@@ -556,10 +675,21 @@
               practice.</p>
           </div>
         </div>
+        <div class="timeline rv">
+          <div class="tl-step"><div class="tl-dot"></div><strong>2017–22</strong><span>Early research</span></div>
+          <div class="tl-step"><div class="tl-dot"></div><strong>2023</strong><span>MusicLM</span></div>
+          <div class="tl-step"><div class="tl-dot"></div><strong>2023–24</strong><span>Suno · Udio</span></div>
+          <div class="tl-step"><div class="tl-dot"></div><strong>2024</strong><span>RIAA lawsuits</span></div>
+        </div>
         <div class="glass rv" style="padding:.85rem 1.1rem">
           <p>After 2023 AI music moved from research demos to consumer products, raising ethical questions that could
-            no longer be deferred.</p>
+            no longer be deferred. <span class="badge">Radical innovation under deep uncertainty </span></p>
         </div>
+      </div>
+      <div class="notes" data-notes="4">
+        <h4>Speaker notes — Slide 4 (≈55 s)</h4>
+        <p>To understand the ethical stakes, we must first situate the technology. On the <em>research</em> side, models such as Google&#x2019;s <strong>MusicLM</strong> demonstrated high-fidelity text-to-music generation, establishing proof of concept. On the <em>commercial</em> side, <strong>Suno</strong> and <strong>Udio</strong> made this capacity accessible to anyone in 2023.</p>
+        <p>In the conceptual terms of our course, we are dealing with what Chiffi calls a <strong>radical innovation</strong> &#x2014; highly discontinuous, revolutionary in nature, and unfolding under <em>deep, non-quantifiable uncertainty</em>. As long as it remained research, ethical questions could be deferred. Once millions of users had access, deferral was no longer defensible.</p>
       </div>
       <div class="sc">4 / 18</div>
     </section>
@@ -595,6 +725,12 @@
             media.</p>
         </div>
       </div>
+      <div class="notes" data-notes="5">
+        <h4>Speaker notes — Slide 5 (≈55 s)</h4>
+        <p>Four primary capacities: <em>text-to-music</em> (a prompt becomes a track); <em>stylistic control</em> (genre, mood, instrumentation); <em>synthetic voice</em>; and <em>melodic continuation</em> from a fragment.</p>
+        <p>Outputs already span from ambient textures to polished pop sketches, deployed in advertising, stock-music libraries, and budget-constrained media.</p>
+        <p>The critical point: these capacities are <strong>not ethically neutral</strong>. Each affects different human actors in different ways. Synthetic voice, in particular, touches on artistic <em>identity</em> &#x2014; a point we will return to.</p>
+      </div>
       <div class="sc">5 / 18</div>
     </section>
     <section class="slide" data-slide="6">
@@ -621,6 +757,13 @@
           <p>This distinction matters ethically and legally because it marks the boundary between innovation and infringement.
           </p>
         </div>
+      </div>
+      <div class="notes" data-notes="6">
+        <h4>Speaker notes — Slide 6 (≈60 s)</h4>
+        <p>A technical distinction with heavy ethical implications.</p>
+        <p><em>Learning</em> is what a human does who listens to a great deal of jazz and absorbs its conventions: the model abstracts general regularities.</p>
+        <p><em>Reproduction</em> is the recombination of distinctive stylistic fingerprints &#x2014; recognisable sonic signatures &#x2014; closely enough to yield outputs derivative of identifiable artists.</p>
+        <p>This boundary is precisely the line between <strong>innovation and infringement</strong>. It is also a paradigmatic instance of what the course calls a <em>wicked problem</em> (Rittel and Webber 1973): the problem cannot be cleanly formulated independently of its resolution, because the answer depends on opaque technical parameters internal to the model.</p>
       </div>
       <div class="sc">6 / 18</div>
     </section>
@@ -657,6 +800,12 @@
           </div>
         </div>
       </div>
+      <div class="notes" data-notes="7">
+        <h4>Speaker notes — Slide 7 (≈55 s)</h4>
+        <p>Why insist on the technical picture before moving to ethics? Because without it, <em>we cannot judge responsibility</em>, <em>we cannot locate harms</em>, and <em>we cannot separate hype from real risk</em>.</p>
+        <p>This connects directly to what the course identifies as the <strong>problem of many hands</strong> (Noorman, in van de Poel): in a chain comprising designers, engineers, platforms, prescribers, and users, moral responsibility becomes distributed and diluted. Grasping the technical architecture is the precondition for re-allocating responsibility in a principled way.</p>
+        <p>With this foundation established, we can now enter the ethical core: <em>who is used, displaced, or misrepresented by these systems, and how?</em></p>
+      </div>
       <div class="sc">7 / 18</div>
     </section>
     <section class="slide" data-slide="8">
@@ -672,13 +821,21 @@
             <h3>Artist concerns</h3>
             <p>Artists have publicly objected to systems trained on their work without permission, calling for rights,
               opt-out mechanisms, and redress.</p>
+            <span class="badge">Artist Rights Alliance · 200+ signatories · April 2024</span>
           </div>
           <div class="glass">
             <h3>Moral problem</h3>
             <p>Training without consent transfers value from creators to platforms without compensation,
               acknowledgment, or choice.</p>
+            <span class="badge">Kant: reciprocity principle violated</span>
           </div>
         </div>
+      </div>
+      <div class="notes" data-notes="8">
+        <h4>Speaker notes — Slide 8 (≈60 s)</h4>
+        <p>First substantive ethical issue: <em>consent</em>. In April 2024, the <strong>Artist Rights Alliance</strong> open letter &#x2014; signed by over two hundred artists, including Billie Eilish, Stevie Wonder, and Nicki Minaj &#x2014; publicly denounced the use of their works to train these models without permission.</p>
+        <p>Morally, the problem is dual. From a <strong>Kantian deontological</strong> standpoint, recall Kant&#x2019;s <em>reciprocity principle</em>: &#x201C;Act so as to treat humanity, whether in your own person or in that of any other, in every case as an end, never as a means only.&#x201D; Training on artists&#x2019; work without consent treats them as mere means &#x2014; instrumentalised inputs to an extractive pipeline.</p>
+        <p>From a <strong>consequentialist</strong> standpoint &#x2014; in Bentham&#x2019;s tradition, the moral balance sheet of utilities and disutilities &#x2014; we observe a transfer of value from creators to platforms without compensation or acknowledgement. Both frameworks converge: this is not merely a legal infringement, it is a moral wrong.</p>
       </div>
       <div class="sc">8 / 18</div>
     </section>
@@ -705,6 +862,13 @@
             <p>The cultural labor that trained these models can be undercut economically by those very same models.</p>
           </div>
         </div>
+      </div>
+      <div class="notes" data-notes="9">
+        <h4>Speaker notes — Slide 9 (≈60 s)</h4>
+        <p>Second ethical issue: <em>labour displacement</em>. Composers, producers, session musicians, sound designers, and vocalists all face substitution pressure.</p>
+        <p>Where first? In the most cost-sensitive sectors: advertising, stock-music libraries, podcasts, social media, and game audio. These are precisely the &#x201C;budget-sensitive sectors&#x201D; where the marginal utility of a human professional collapses fastest.</p>
+        <p>The structural paradox is striking: <strong>the cultural labour that trained these models is the very labour those models now economically displace</strong>.</p>
+        <p>Applied to the course&#x2019;s framework of <strong>virtue ethics</strong>: the question becomes not &#x201C;what rule must I follow?&#x201D; nor &#x201C;what outcome must I maximise?&#x201D; but &#x201C;<em>what character traits, what cultural habits, are we cultivating or undermining?</em>&#x201D; A society that automates creation must ask whether it still rewards craft, patience, and long-form apprenticeship &#x2014; the very excellences (Aristotelian <em>aretai</em>) that constitute musical practice.</p>
       </div>
       <div class="sc">9 / 18</div>
     </section>
@@ -742,8 +906,15 @@
             <h3>Legal context</h3>
             <p>Recent guidance treats AI output as protected only when sufficient human expressive control is present —
               an evolving and contested standard.</p>
+            <span class="badge">U.S. Copyright Office · AI &amp; Copyright Report · 2025</span>
           </div>
         </div>
+      </div>
+      <div class="notes" data-notes="10">
+        <h4>Speaker notes — Slide 10 (≈60 s)</h4>
+        <p>Third ethical issue: <em>authorship</em>. The question &#x201C;who wrote this song?&#x201D; has at least four candidates &#x2014; the prompt user, the engineers who trained the model, the artists whose works form the training set, or, most unsettling, no human author at all.</p>
+        <p>This is a textbook case of what Merel Noorman, drawing on van de Poel, calls the <strong>problem of many hands</strong>: responsibility &#x2014; and here authorship, its constitutive correlate &#x2014; is distributed across the entire chain of design, development, and use. Assigning it to any single agent is conceptually inadequate.</p>
+        <p>Legally, the <strong>U.S. Copyright Office&#x2019;s 2025 report on AI and Copyright</strong> stipulates that AI outputs qualify for protection only when sufficient <em>human expressive control</em> is present. But the threshold remains contested, evolving, and difficult to operationalise.</p>
       </div>
       <div class="sc">10 / 18</div>
     </section>
@@ -757,19 +928,30 @@
         <h2 class="rv">Applying moral reasoning</h2>
         <div class="g3 rv">
           <div class="glass">
-            <h3>Consequentialism</h3>
+            <h3><span class="fw-icon">⚖️</span>Consequentialism</h3>
             <p>Weigh outcomes: democratized access and efficiency gains vs. weakened creative ecosystems and
               livelihoods.</p>
+            <span class="badge">Bentham · utility principle</span>
           </div>
           <div class="glass">
-            <h3>Deontology</h3>
+            <h3><span class="fw-icon">📜</span>Deontology</h3>
             <p>Ask whether using human work without consent violates duties to respect and acknowledge creators.</p>
+            <span class="badge">Kant · categorical imperative</span>
           </div>
           <div class="glass">
-            <h3>Virtue ethics</h3>
+            <h3><span class="fw-icon">🌱</span>Virtue ethics</h3>
             <p>Consider what character traits and cultural habits we reward, or undermine, in music production.</p>
+            <span class="badge">Aristotle · aretai (excellences)</span>
           </div>
         </div>
+      </div>
+      <div class="notes" data-notes="11">
+        <h4>Speaker notes — Slide 11 (≈75 s) — KEY SLIDE</h4>
+        <p>We now apply the three normative frameworks of the course to AI-generated music.</p>
+        <p><strong>Consequentialism</strong>, in the tradition of <em>Jeremy Bentham</em> and classical utilitarianism: actions are judged by the balance of pleasure and pain they produce &#x2014; the &#x201C;moral balance sheet&#x201D; in which costs and benefits of each possible action are weighed. On the benefit side: democratised access to musical creation, efficiency gains across the production chain. On the cost side: the weakening of creative ecosystems, the erosion of livelihoods, the cultural impoverishment of homogenised output. The balance is far from self-evidently positive.</p>
+        <p><strong>Deontology</strong>, in <em>Immanuel Kant&#x2019;s</em> formulation: we examine duties rather than outcomes. The <em>categorical imperative</em> in its second formulation &#x2014; the reciprocity principle &#x2014; commands us to treat humanity always as an end and never merely as a means. Using artists&#x2019; work without consent treats them precisely as mere means: instrumentalised inputs. Crucially, no aggregation of positive consequences can wash out this violation.</p>
+        <p><strong>Virtue ethics</strong>, in the Aristotelian tradition: the question is neither &#x201C;what rule must I follow?&#x201D; nor &#x201C;what outcome must I maximise?&#x201D; but &#x201C;<em>what kind of agent, what kind of community am I becoming?</em>&#x201D; Do we still reward mastery, patience, long apprenticeship &#x2014; the excellences proper to musical practice? Or do we reward indifferent, mass-produced output?</p>
+        <p>No single framework yields a closed answer. But, as Chiffi emphasises, &#x201C;<em>ethics is not a manual with definite answers: it is about questions and arguments concerning the moral choices people can make</em>.&#x201D; The plurality of frameworks is not a weakness &#x2014; it is the discipline.</p>
       </div>
       <div class="sc">11 / 18</div>
     </section>
@@ -783,7 +965,8 @@
         <h2 class="rv">Real-world conflicts: lawsuits and industry response</h2>
         <div class="glass rv">
           <p>Major record companies initiated lawsuits alleging large-scale infringement in 2024. These disputes show
-            the issue is institutiona, not merely theoretical or philosophical.</p>
+            the issue is institutional, not merely theoretical or philosophical.</p>
+          <span class="badge">RIAA · Universal · Sony · Warner v. Suno &amp; Udio · June 2024</span>
         </div>
         <div class="g2 rv">
           <div class="glass">
@@ -797,6 +980,12 @@
             </p>
           </div>
         </div>
+      </div>
+      <div class="notes" data-notes="12">
+        <h4>Speaker notes — Slide 12 (≈55 s)</h4>
+        <p>These ethical questions are not merely theoretical. In <strong>June 2024</strong>, the <em>RIAA</em> together with the three major labels &#x2014; Universal, Sony, and Warner &#x2014; filed suit against <em>Suno</em> and <em>Udio</em>, alleging large-scale infringement through unauthorised use of their catalogues for training.</p>
+        <p>Why does this matter? Because these lawsuits force platforms into <strong>concrete institutional accountability</strong>: the debate migrates from the philosophical seminar room into the courts &#x2014; precisely the kind of forum, as Chiffi argues, where the political and democratic moralisation of technology can take place.</p>
+        <p>And these proceedings open the question my colleague will take up next: if listeners <em>cannot perceptually distinguish</em> AI from human music, does this create an <strong>independent</strong> ethical problem &#x2014; one of deception and trust &#x2014; that goes beyond copyright? A question that leads us directly to the <em>Turing test</em> applied to musical expression.</p>
       </div>
       <div class="sc">12 / 18</div>
     </section>
@@ -1031,7 +1220,7 @@
       18</span>
   </div>
   <script>
-    let current = 1; const total = document.querySelectorAll('.slide').length; const dotsEl = document.getElementById('dots'); const counterEl = document.getElementById('counter'); for (let i = 1; i <= total; i++) { const d = document.createElement('div'); d.className = 'dot' + (i === 1 ? ' active' : ''); d.onclick = () => goToSlide(i); dotsEl.appendChild(d); } function goToSlide(n) { const p = document.querySelector('.slide.active'), nx = document.querySelector(`.slide[data-slide="${n}"]`); if (p) p.classList.remove('active'); if (nx) { nx.classList.add('active'); animateSlide(nx); } current = n; updateNav(); } function changeSlide(d) { let n = current + d; if (n < 1) n = total; if (n > total) n = 1; goToSlide(n); } function updateNav() { document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === current)); counterEl.textContent = `${current} / ${total}`; } document.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); } }); let tx = 0; document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }); document.addEventListener('touchend', e => { const diff = tx - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); }); function animateSlide(slide) { slide.querySelectorAll('.rv').forEach((el, i) => { el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(14px)'; el.offsetHeight; const delay = i * 0.08; el.style.transition = `opacity .36s ease ${delay}s,transform .36s ease ${delay}s`; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }); } animateSlide(document.querySelector('.slide.active'));
+    let current = 1; const total = document.querySelectorAll('.slide').length; const dotsEl = document.getElementById('dots'); const counterEl = document.getElementById('counter'); for (let i = 1; i <= total; i++) { const d = document.createElement('div'); d.className = 'dot' + (i === 1 ? ' active' : ''); d.onclick = () => goToSlide(i); dotsEl.appendChild(d); } function goToSlide(n) { const p = document.querySelector('.slide.active'), nx = document.querySelector(`.slide[data-slide="${n}"]`); if (p) p.classList.remove('active'); if (nx) { nx.classList.add('active'); animateSlide(nx); } current = n; updateNav(); updateNotes(); } function changeSlide(d) { let n = current + d; if (n < 1) n = total; if (n > total) n = 1; goToSlide(n); } function updateNav() { document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === current)); counterEl.textContent = `${current} / ${total}`; } let notesVisible = false; function updateNotes() { document.querySelectorAll('.notes').forEach(n => n.classList.remove('show')); if (notesVisible) { const cur = document.querySelector(`.notes[data-notes="${current}"]`); if (cur) cur.classList.add('show'); } } function toggleNotes() { notesVisible = !notesVisible; updateNotes(); } document.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); } if (e.key === 'n' || e.key === 'N') { e.preventDefault(); toggleNotes(); } }); let tx = 0; document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }); document.addEventListener('touchend', e => { const diff = tx - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); }); function animateSlide(slide) { slide.querySelectorAll('.rv').forEach((el, i) => { el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(14px)'; el.offsetHeight; const delay = i * 0.08; el.style.transition = `opacity .36s ease ${delay}s,transform .36s ease ${delay}s`; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }); } animateSlide(document.querySelector('.slide.active'));
   </script>
 </body>
 
